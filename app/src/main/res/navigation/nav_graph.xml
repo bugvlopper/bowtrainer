@@ -14,6 +14,7 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +25,20 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <argument
+            android:name="roundNumber"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="3" />
+        <argument
+            android:name="roundTime"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="60"/>
+        <argument
+            android:name="restTime"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="60"/>
     </fragment>
 </navigation>
