@@ -37,10 +37,8 @@ public class TrainingSetup extends Fragment {
             String roundTime = binding.roundTime.getText().toString();
             String restTime = binding.restTime.getText().toString();
             action.setRoundNumber(roundNumber);
-            action.setRoundTime(roundTime);            FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment();
-
+            action.setRoundTime(roundTime);
             action.setRestTime(restTime);
-            System.out.println(action);
             NavHostFragment.findNavController(TrainingSetup.this).navigate(action);
         });
     }
