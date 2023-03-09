@@ -1,5 +1,6 @@
 package com.example.boxtrainer;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,24 +11,37 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.boxtrainer.database.WordListAdapter;
+import com.example.boxtrainer.database.WordViewModel;
 import com.example.boxtrainer.databinding.FragmentFirstBinding;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
+    private WordViewModel mWordViewModel;
+
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentFirstBinding.inflate(inflater, container, false);
+        RecyclerView recyclerView = binding.recyclerview.findViewById(R.id.recyclerview);
+        final WordListAdapter adapter = new WordListAdapter(new WordListAdapter.WordDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mWordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
+        mWordViewModel.getAllWords().observe(getViewLifecycleOwner(), words -> {
+            // Update the cached copy of the words in the adapter.
+            adapter.submitList(words);
+        });
+
         return binding.getRoot();
 
     }
@@ -39,7 +53,7 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(FirstFragment.this)
+               NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
@@ -48,10 +62,17 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
+                NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_thirdFragment);
+                /*
+                Bundle bundle = new Bundle();
+                bundle.putString("roundNumber", "10");
+                bundle.putString("roundTime", "10");
+                bundle.putString("restTime","10");
                 fragmentManager.beginTransaction()
-                        .add(R.id.fisrtFragmentLayout, TrainingSetup.class, null, "tag")
-                        .addToBackStack(null)
+                        .setReorderingAllowed(true)
+                        .add(R.id.fisrtFragmentLayout, TrainingSetup.class, bundle, "tag")
+                        .addToBackStack("name")
                         .commit();
                 fragmentManager.executePendingTransactions();
                 View firstView = binding.fragmentContainerView;
@@ -63,6 +84,8 @@ public class FirstFragment extends Fragment {
                 constraintSet.clone(constraintLayout);
                 constraintSet.connect(1234, ConstraintSet.TOP, firstView.getId(), ConstraintSet.BOTTOM);
                 constraintSet.applyTo(constraintLayout);
+
+                 */
 
             }
         });

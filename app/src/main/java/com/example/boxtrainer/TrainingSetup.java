@@ -24,12 +24,25 @@ public class TrainingSetup extends Fragment {
     ) {
 
         binding = TrainingsetupBinding.inflate(inflater, container, false);
+
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            System.out.println("bundle :"+ bundle);
+            binding.roundNumber.setText(bundle.getString("roundNumber"));
+            binding.roundTime.setText(bundle.getString("roundTime"));
+            binding.restTime.setText(bundle.getString("restTime"));
+        }
+
+
+
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
 
         binding.buttonLaunch.setOnClickListener(v -> {
             FirstFragmentDirections.ActionFirstFragmentToSecondFragment action = FirstFragmentDirections.actionFirstFragmentToSecondFragment();
