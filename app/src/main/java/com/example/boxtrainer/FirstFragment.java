@@ -11,19 +11,30 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.boxtrainer.database.Word;
+import com.example.boxtrainer.database.WordDao;
+import com.example.boxtrainer.database.WordDao_Impl;
 import com.example.boxtrainer.database.WordListAdapter;
+import com.example.boxtrainer.database.WordRoomDatabase;
 import com.example.boxtrainer.database.WordViewModel;
+import com.example.boxtrainer.database.trainingdatabase.TrainingDB;
+import com.example.boxtrainer.database.trainingdatabase.TrainingListAdapter;
+import com.example.boxtrainer.database.trainingdatabase.TrainingViewModel;
 import com.example.boxtrainer.databinding.FragmentFirstBinding;
+
+import java.util.List;
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private WordViewModel mWordViewModel;
+    private TrainingViewModel trainingViewModel;
 
 
     @Override
@@ -32,7 +43,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentFirstBinding.inflate(inflater, container, false);
-        RecyclerView recyclerView = binding.recyclerview.findViewById(R.id.recyclerview);
+        /*RecyclerView recyclerView = binding.recyclerview.findViewById(R.id.recyclerview);
         final WordListAdapter adapter = new WordListAdapter(new WordListAdapter.WordDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -40,7 +51,18 @@ public class FirstFragment extends Fragment {
         mWordViewModel.getAllWords().observe(getViewLifecycleOwner(), words -> {
             // Update the cached copy of the words in the adapter.
             adapter.submitList(words);
+        });*/
+
+
+        RecyclerView recyclerView = binding.recyclerview.findViewById(R.id.recyclerview);
+        final TrainingListAdapter adapter = new TrainingListAdapter(new TrainingListAdapter.TrainingDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        trainingViewModel = new ViewModelProvider(this).get(TrainingViewModel.class);
+        trainingViewModel.getAllTraining().observe(getViewLifecycleOwner(),trainings -> {
+            adapter.submitList(trainings);
         });
+
 
         return binding.getRoot();
 
@@ -53,15 +75,22 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               NavHostFragment.findNavController(FirstFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+               /*NavHostFragment.findNavController(FirstFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment);*/
+                trainingViewModel.deleteAll();
+
             }
         });
 
         binding.addFLoatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*TrainingDB trainingDB = new TrainingDB();
+                trainingDB.setName("eye");
+                trainingDB.setRoundNumber("5");
+                trainingDB.setRoundTime("25");
+                trainingDB.setRestTime("30");
+                trainingViewModel.insert(trainingDB);*/
                 NavHostFragment.findNavController(FirstFragment.this)
                         .navigate(R.id.action_FirstFragment_to_thirdFragment);
                 /*
