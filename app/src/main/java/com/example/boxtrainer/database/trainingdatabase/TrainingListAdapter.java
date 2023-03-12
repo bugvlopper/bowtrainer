@@ -19,7 +19,7 @@ public class TrainingListAdapter extends ListAdapter<TrainingDB, TrainingViewHol
     @Override
     public void onBindViewHolder(TrainingViewHolder holder, int position) {
         TrainingDB current = getItem(position);
-        holder.bind(current.getName(),current.getRoundNumber(),current.getRoundTime(), current.getRestTime());
+        holder.bind(current.getId(),current.getName(),current.getRoundNumber(),current.getRoundTime(), current.getRestTime());
     }
 
     public static class TrainingDiff extends DiffUtil.ItemCallback<TrainingDB> {

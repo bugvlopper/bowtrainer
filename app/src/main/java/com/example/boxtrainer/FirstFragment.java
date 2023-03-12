@@ -23,6 +23,7 @@ import com.example.boxtrainer.database.WordDao_Impl;
 import com.example.boxtrainer.database.WordListAdapter;
 import com.example.boxtrainer.database.WordRoomDatabase;
 import com.example.boxtrainer.database.WordViewModel;
+import com.example.boxtrainer.database.trainingdatabase.DeleteTrainingDialog;
 import com.example.boxtrainer.database.trainingdatabase.TrainingDB;
 import com.example.boxtrainer.database.trainingdatabase.TrainingListAdapter;
 import com.example.boxtrainer.database.trainingdatabase.TrainingViewModel;

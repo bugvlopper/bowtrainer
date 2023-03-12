@@ -7,11 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.boxtrainer.FirstFragmentDirections;
 import com.example.boxtrainer.R;
 
 class TrainingViewHolder extends RecyclerView.ViewHolder {
@@ -19,6 +19,7 @@ class TrainingViewHolder extends RecyclerView.ViewHolder {
     private final TextView roundNumber;
     private final TextView roundTime;
     private final TextView restTime;
+    private int id = 0;
 
     private TrainingViewHolder(View view) {
         super(view);
@@ -27,6 +28,18 @@ class TrainingViewHolder extends RecyclerView.ViewHolder {
         roundNumber = view.findViewById(R.id.roundNumber);
         roundTime = view.findViewById(R.id.roundTime);
         restTime = view.findViewById(R.id.restTime);
+
+
+        view.findViewById(R.id.trainingRecyclerView).setOnClickListener(new View.OnClickListener() {
+            FragmentActivity fragmentActivity = (FragmentActivity) view.getContext();
+            @Override
+            public void onClick(View v) {
+                DeleteTrainingDialog dialog = new DeleteTrainingDialog();
+                dialog.show(fragmentActivity.getSupportFragmentManager(),"oups");
+                System.out.println(id);
+            }
+        });
+
 
         view.findViewById(R.id.buttonLaunch).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +54,8 @@ class TrainingViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void bind(String name,String roundNumberVal,String roundTimeVal,String restTimeVal) {
+    public void bind(int id ,String name,String roundNumberVal,String roundTimeVal,String restTimeVal) {
+        this.id = id;
         nameText.setText(name);
         roundNumber.setText(roundNumberVal);
         roundTime.setText(roundTimeVal);
