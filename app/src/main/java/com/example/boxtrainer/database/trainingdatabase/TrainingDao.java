@@ -16,6 +16,9 @@ public interface TrainingDao {
     @Query("DELETE FROM training_table")
     void deleteAll();
 
+    @Query("DELETE FROM training_table WHERE id = :id")
+    void deleteById(int id);
+
     @Query("SELECT * FROM training_table ")
     LiveData<List<TrainingDB>> getAllTrainingOrderById();
 }

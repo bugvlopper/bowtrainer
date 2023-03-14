@@ -24,4 +24,6 @@ public class TrainingViewModel extends AndroidViewModel {
     public void insert(TrainingDB trainingDB) { myRepository.insert(trainingDB);}
 
     public void deleteAll() { myRepository.deleteAll();}
+
+    public void deleteById(int id) {myRepository.deleteById(id);}
 }

@@ -31,4 +31,10 @@ public class TrainingReposisotry {
         });
     }
 
+    void deleteById(int id){
+        TrainingRoomDatabase.databaseWriteExecutor.execute(()->{
+            trainingDao.deleteById(id);
+        });
+    }
+
 }

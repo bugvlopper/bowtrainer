@@ -30,13 +30,17 @@ class TrainingViewHolder extends RecyclerView.ViewHolder {
         restTime = view.findViewById(R.id.restTime);
 
 
-        view.findViewById(R.id.trainingRecyclerView).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.trainingRecyclerView).setOnLongClickListener(new View.OnLongClickListener() {
             FragmentActivity fragmentActivity = (FragmentActivity) view.getContext();
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 DeleteTrainingDialog dialog = new DeleteTrainingDialog();
+                Bundle bundle = new Bundle();
+                bundle.putInt("trainingId", id);
+                dialog.setArguments(bundle);
                 dialog.show(fragmentActivity.getSupportFragmentManager(),"oups");
                 System.out.println(id);
+                return true;
             }
         });
 
