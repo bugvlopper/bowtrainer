@@ -70,7 +70,7 @@
         android:layout_margin="12dp"
         android:layout_marginBottom="32dp"
         android:background="@color/yellow"
-        android:text="button_save"
+        android:text="Ajouter"
         android:textColor="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints"

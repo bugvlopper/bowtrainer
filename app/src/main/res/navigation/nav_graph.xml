@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.boxtrainer.FirstFragment"
-        android:label="@string/first_fragment_label"
+        android:label="Liste d'entrainement"
         tools:layout="@layout/fragment_first">
 
         <action
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.boxtrainer.SecondFragment"
-        android:label="@string/second_fragment_label"
+        android:label="Entrainement"
         tools:layout="@layout/fragment_second">
 
         <action
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/thirdFragment"
         android:name="com.example.boxtrainer.ThirdFragment"
-        android:label="ThirdFragment" >
+        android:label="Ajouter un entrainement">
         <action
             android:id="@+id/action_thirdFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />

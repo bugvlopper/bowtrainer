@@ -1,25 +1,23 @@
 package com.example.boxtrainer;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
+import android.graphics.drawable.ClipDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.boxtrainer.databinding.ActivityMainBinding;
 import com.example.boxtrainer.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {
@@ -33,6 +31,13 @@ public class SecondFragment extends Fragment {
     private boolean inRestTime = false;
     private int roundLeft;
     private MediaPlayer mediaPlayer;
+    private final int circleOffset = 830;
+    ValueAnimator valueAnimator = new ValueAnimator().ofInt(circleOffset,10000 - circleOffset);
+    ValueAnimator valueAnimatorDown = new ValueAnimator().ofInt(10000-circleOffset,circleOffset);
+    private boolean animatorIsRunning = false;
+    private  boolean animatorDownIsRunning = false;
+    ClipDrawable clipDrawable;
+
 
     @Override
     public View onCreateView(
@@ -60,6 +65,7 @@ public class SecondFragment extends Fragment {
                     roundLeft = 0;
                     binding.textCount.setText("0");
                     binding.roundLeft.setText("0");
+                    clipDrawable.setLevel(circleOffset);
                 }
                 return false;
             }
@@ -68,6 +74,9 @@ public class SecondFragment extends Fragment {
                 handler.removeCallbacks(runnable);
                 isRunnning = false;
                 binding.secondFragmentLayout.setKeepScreenOn(false);
+                valueAnimator.cancel();
+                valueAnimatorDown.cancel();
+                animatorIsRunning = false;
                 return false;
             }
 
@@ -78,12 +87,35 @@ public class SecondFragment extends Fragment {
         });
 
 
+        ImageView imageView = binding.imageViewCircleColor.findViewById(R.id.imageViewCircleColor);
+        clipDrawable = new ClipDrawable(imageView.getDrawable(),Gravity.BOTTOM,ClipDrawable.VERTICAL);
+        imageView.setImageDrawable(clipDrawable);
+        clipDrawable.setLevel(circleOffset);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+
+                int level = (int) animator.getAnimatedValue();
+                clipDrawable.setLevel(level);
+            }
+        });
+        valueAnimatorDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+
+                int level = (int) animator.getAnimatedValue();
+                clipDrawable.setLevel(level);
+            }
+        });
+
+
         String roundNumber = SecondFragmentArgs.fromBundle(getArguments()).getRoundNumber();
         String roundTime = SecondFragmentArgs.fromBundle(getArguments()).getRoundTime();
         String restTime = SecondFragmentArgs.fromBundle(getArguments()).getRestTime();
         binding.numberOfRoundInput.setText(roundNumber);
         binding.roundTimeInput.setText(roundTime);
         binding.restTimeInput.setText(restTime);
+
 
         binding.buttonStop.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -97,9 +129,14 @@ public class SecondFragment extends Fragment {
         binding.buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*imageView.setImageDrawable(clipDrawable);
+                clipDrawable.setLevel(9000);*/
+
+
                 mediaPlayer = MediaPlayer.create(getContext(), R.raw.beepsound);
-                binding.secondFragmentLayout.setKeepScreenOn(true);
+
                 if(!isRunnning) {
+                    binding.secondFragmentLayout.setKeepScreenOn(true);
                     isRunnning = true;
                     if(roundLeft == 0) {
                         chronoCount = binding.textCount.getText().toString();
@@ -136,6 +173,13 @@ public class SecondFragment extends Fragment {
         if (roundLeft >0){
 
             if(!inRestTime) {
+                animatorDownIsRunning = false;
+                if(!animatorIsRunning){
+                    animatorIsRunning = true;
+                    valueAnimator.setDuration(roundTime*1000);
+                    valueAnimator.start();
+                }
+
                 if (chrono < roundTime) {
                     chrono += 1;
                     chronoCount = String.valueOf(chrono);
@@ -155,6 +199,12 @@ public class SecondFragment extends Fragment {
                 }
             }else{
                 if (chrono > 0) {
+                    animatorIsRunning = false;
+                    if (!animatorDownIsRunning) {
+                        animatorDownIsRunning = true;
+                        valueAnimatorDown.setDuration(restTime * 1000);
+                        valueAnimatorDown.start();
+                    }
                     chrono -= 1;
                     chronoCount = String.valueOf(chrono);
                     binding.textCount.setText(chronoCount);
@@ -167,6 +217,8 @@ public class SecondFragment extends Fragment {
             }
         }else {
             handler.removeCallbacks(runnable);
+            clipDrawable.setLevel(circleOffset);
+            animatorIsRunning = false;
             isRunnning = false;
             binding.secondFragmentLayout.setKeepScreenOn(false);
         }
