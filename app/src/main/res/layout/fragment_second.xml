@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="false"
-    android:screenOrientation="portrait"
     tools:context=".SecondFragment">
 
     <TextView
@@ -54,11 +53,14 @@
 
     <ImageView
         android:id="@+id/imageViewCircleColor"
-        android:layout_width="154dp"
-        android:layout_height="154dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:cropToPadding="true"
-        android:src="@drawable/ic_baseline_circle_24_color"
+        android:src="@drawable/background_circle_color"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintLeft_toLeftOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <EditText
@@ -97,9 +99,11 @@
         android:layout_height="40dp"
         android:layout_marginTop="296dp"
         android:layout_marginBottom="211dp"
+        android:fontFamily="sans-serif-medium"
         android:paddingTop="10dp"
         android:text="@string/chrono_count"
         android:textAlignment="center"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,6 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:fontFamily="sans-serif-medium"
         android:text="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/RoundIndicator"
@@ -151,9 +156,9 @@
 
     <ImageView
         android:id="@+id/imageViewSound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_lock_silent_mode_off"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_baseline_volume_up_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/numberOfRoundInput"
         app:layout_constraintTop_toTopOf="@+id/numberOfRoundInput"

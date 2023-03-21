@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+>
     <EditText
         android:id="@+id/nameOfTrainingDBInput"
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         android:hint="Nom de l'entrainement"
         android:inputType="textAutoComplete"
         android:minHeight="100dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp" />
@@ -31,7 +30,7 @@
         android:hint="Nombre de round"
         android:inputType="number"
         android:minHeight="100dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/nameOfTrainingDBInput"
         tools:layout_editor_absoluteX="30dp" />
 
@@ -45,7 +44,7 @@
         android:hint="Durée du round"
         android:inputType="number"
         android:minHeight="100dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/roundNumberDBInput"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -58,7 +57,7 @@
         android:hint="Temps de repos"
         android:inputType="number"
         android:minHeight="100dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/roundTimeDBInput"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="16dp" />
@@ -71,7 +70,8 @@
         android:layout_marginBottom="32dp"
         android:background="@color/yellow"
         android:text="Ajouter"
-        android:textColor="@color/purple_700"
+        android:textSize="15sp"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="12dp" />

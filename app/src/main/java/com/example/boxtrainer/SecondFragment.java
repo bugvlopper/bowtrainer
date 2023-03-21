@@ -2,7 +2,10 @@ package com.example.boxtrainer;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,11 +34,12 @@ public class SecondFragment extends Fragment {
     private boolean inRestTime = false;
     private int roundLeft;
     private MediaPlayer mediaPlayer;
-    private final int circleOffset = 830;
+    private final int circleOffset =  0;// previously 830
     ValueAnimator valueAnimator = new ValueAnimator().ofInt(circleOffset,10000 - circleOffset);
     ValueAnimator valueAnimatorDown = new ValueAnimator().ofInt(10000-circleOffset,circleOffset);
     private boolean animatorIsRunning = false;
     private  boolean animatorDownIsRunning = false;
+    private boolean volumeOff = false;
     ClipDrawable clipDrawable;
 
 
@@ -116,6 +120,19 @@ public class SecondFragment extends Fragment {
         binding.roundTimeInput.setText(roundTime);
         binding.restTimeInput.setText(restTime);
 
+        binding.imageViewSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!volumeOff){
+                    volumeOff = true;
+                    binding.imageViewSound.setImageDrawable((Drawable) getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
+                }else{
+                    volumeOff = false;
+                    binding.imageViewSound.setImageDrawable((Drawable) getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
+                }
+            }
+        });
 
         binding.buttonStop.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
@@ -184,7 +201,7 @@ public class SecondFragment extends Fragment {
                     chrono += 1;
                     chronoCount = String.valueOf(chrono);
                     binding.textCount.setText(chronoCount);
-                    if(chrono > roundTime-3){
+                    if(chrono > roundTime-3 && !volumeOff){
                         mediaPlayer.start();
                     }
                 }else{
@@ -208,7 +225,7 @@ public class SecondFragment extends Fragment {
                     chrono -= 1;
                     chronoCount = String.valueOf(chrono);
                     binding.textCount.setText(chronoCount);
-                    if (chrono < 3){
+                    if (chrono < 3 && !volumeOff){
                         mediaPlayer.start();
                     }
                 }else{
