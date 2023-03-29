@@ -12,4 +12,22 @@
 
     <!-- section for my chrono -->
     <string name="chrono_count">0</string>
+    <string name="FabDescription">Button who is suppose to add new fragment</string>
+    <string name="temps_de_repos">Temps de repos :</string>
+    <string name="hint_60">60</string>
+    <string name="temp_du_round">Durée du round :</string>
+    <string name="start">Start</string>
+    <string name="hint_3">3</string>
+    <string name="round_restant">Round restant :</string>
+    <string name="nombres_de_round">Nombres de round :</string>
+    <string name="stop">Stop</string>
+    <string name="hint_0">0</string>
+    <string name="animation_bg_description">background off animation</string>
+    <string name="animate_cirlce_description">circle animated to make taime more eay to see</string>
+    <string name="mutevolume_button_description">mutevolume button</string>
+    <string name="training_name">Nom de l\'entrainement</string>
+    <string name="nombre_de_round">Nombre de round</string>
+    <string name="add">Ajouter</string>
+    <string name="resume">Reprendre</string>
+    <string name="reset">reset</string>
 </resources>

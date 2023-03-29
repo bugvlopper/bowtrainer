@@ -37,15 +37,17 @@
         android:id="@+id/addFLoatingButton"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:padding="10dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:contentDescription="Button who is suppose to add new fragment"
-        android:src="@drawable/ic_baseline_add_24"
         android:background="@drawable/background_circle_color"
+        android:clickable="true"
+        android:contentDescription="@string/FabDescription"
+        android:focusable="true"
+        android:padding="10dp"
+        android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RedundantDescriptionCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

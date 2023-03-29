@@ -2,10 +2,8 @@ package com.example.boxtrainer;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
+import android.content.res.TypedArray;
 import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +14,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.boxtrainer.databinding.FragmentSecondBinding;
+
 
 public class SecondFragment extends Fragment {
 
@@ -30,22 +31,22 @@ public class SecondFragment extends Fragment {
     private int chrono;
     private boolean isRunnning = false;
     private Runnable runnable;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private boolean inRestTime = false;
     private int roundLeft;
     private MediaPlayer mediaPlayer;
     private final int circleOffset =  0;// previously 830
-    ValueAnimator valueAnimator = new ValueAnimator().ofInt(circleOffset,10000 - circleOffset);
-    ValueAnimator valueAnimatorDown = new ValueAnimator().ofInt(10000-circleOffset,circleOffset);
+    ValueAnimator valueAnimator = ValueAnimator.ofInt(circleOffset,10000 - circleOffset);
+    ValueAnimator valueAnimatorDown = ValueAnimator.ofInt(10000-circleOffset,circleOffset);
     private boolean animatorIsRunning = false;
     private  boolean animatorDownIsRunning = false;
     private boolean volumeOff = false;
     ClipDrawable clipDrawable;
-
+    int colorAttrId2;
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
 
     ) {
@@ -55,9 +56,16 @@ public class SecondFragment extends Fragment {
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "UseCompatLoadingForDrawables"})
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        TypedArray a2 = requireContext().getTheme().obtainStyledAttributes(R.style.Theme_BoxTrainer,new int[] {com.google.android.material.R.attr.colorOnSecondary});
+        colorAttrId2 = a2.getResourceId(0,0);
+        a2.recycle();
+
+
+
         GestureDetector doubletap = new GestureDetector( new GestureDetector.SimpleOnGestureListener());
         doubletap.setOnDoubleTapListener(new GestureDetector.OnDoubleTapListener() {
             @Override
@@ -70,17 +78,31 @@ public class SecondFragment extends Fragment {
                     binding.textCount.setText("0");
                     binding.roundLeft.setText("0");
                     clipDrawable.setLevel(circleOffset);
+                    binding.buttonStop.setText(R.string.stop);
+                    binding.buttonStart.setText(R.string.start);
+                    valueAnimatorDown.cancel();
+                    valueAnimator.cancel();
+                    binding.textCount.setTextColor(ContextCompat.getColor(requireContext(), colorAttrId2));
                 }
                 return false;
             }
             @Override
             public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
-                handler.removeCallbacks(runnable);
-                isRunnning = false;
-                binding.secondFragmentLayout.setKeepScreenOn(false);
-                valueAnimator.cancel();
-                valueAnimatorDown.cancel();
-                animatorIsRunning = false;
+                if(isRunnning) {
+                    handler.removeCallbacks(runnable);
+                    isRunnning = false;
+                    binding.secondFragmentLayout.setKeepScreenOn(false);
+                    valueAnimator.pause();
+                    valueAnimatorDown.pause();
+                    animatorIsRunning = false;
+                    if (roundLeft != 0) {
+                        binding.buttonStop.setText(R.string.reset);
+                        binding.buttonStart.setText(R.string.resume);
+                    }
+                }else if(roundLeft != 0){
+                    Toast toast = Toast.makeText(getContext(),"Double click to reset", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
                 return false;
             }
 
@@ -95,20 +117,26 @@ public class SecondFragment extends Fragment {
         clipDrawable = new ClipDrawable(imageView.getDrawable(),Gravity.BOTTOM,ClipDrawable.VERTICAL);
         imageView.setImageDrawable(clipDrawable);
         clipDrawable.setLevel(circleOffset);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
+        valueAnimator.addUpdateListener(animator -> {
 
-                int level = (int) animator.getAnimatedValue();
-                clipDrawable.setLevel(level);
+            int level = (int) animator.getAnimatedValue();
+            clipDrawable.setLevel(level);
+
+            TypedArray a = requireContext().getTheme().obtainStyledAttributes(R.style.Theme_BoxTrainer,new int[] {com.google.android.material.R.attr.colorOnPrimary});
+            int colorAttrId = a.getResourceId(0,0);
+            a.recycle();
+
+            if(level >5000 && level <5500) {
+                binding.textCount.setTextColor(ContextCompat.getColor(requireContext(), colorAttrId));
             }
         });
-        valueAnimatorDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
+        valueAnimatorDown.addUpdateListener(animator -> {
 
-                int level = (int) animator.getAnimatedValue();
-                clipDrawable.setLevel(level);
+            int level = (int) animator.getAnimatedValue();
+            clipDrawable.setLevel(level);
+
+            if(level <5500 && level >5000) {
+                binding.textCount.setTextColor(ContextCompat.getColor(requireContext(), colorAttrId2));
             }
         });
 
@@ -120,60 +148,53 @@ public class SecondFragment extends Fragment {
         binding.roundTimeInput.setText(roundTime);
         binding.restTimeInput.setText(restTime);
 
-        binding.imageViewSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.imageViewSound.setOnClickListener(v -> {
 
-                if(!volumeOff){
-                    volumeOff = true;
-                    binding.imageViewSound.setImageDrawable((Drawable) getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
-                }else{
-                    volumeOff = false;
-                    binding.imageViewSound.setImageDrawable((Drawable) getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
-                }
+            if(!volumeOff){
+                volumeOff = true;
+                binding.imageViewSound.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
+            }else{
+                volumeOff = false;
+                binding.imageViewSound.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
             }
         });
 
-        binding.buttonStop.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                doubletap.onTouchEvent(event);
-                return false;
-            }
+        binding.buttonStop.setOnTouchListener((v, event) -> {
+            doubletap.onTouchEvent(event);
+            return false;
         });
 
-        binding.buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*imageView.setImageDrawable(clipDrawable);
-                clipDrawable.setLevel(9000);*/
+        binding.buttonStart.setOnClickListener(v -> {
 
+            mediaPlayer = MediaPlayer.create(getContext(), R.raw.beepsound);
 
-                mediaPlayer = MediaPlayer.create(getContext(), R.raw.beepsound);
-
-                if(!isRunnning) {
-                    binding.secondFragmentLayout.setKeepScreenOn(true);
-                    isRunnning = true;
-                    if(roundLeft == 0) {
-                        chronoCount = binding.textCount.getText().toString();
-                        chrono = Integer.parseInt(chronoCount);
-                        int numberOfRound = Integer.parseInt(binding.numberOfRoundInput.getText().toString());
-                        roundLeft = numberOfRound;
-                        int roundTime = Integer.parseInt(binding.roundTimeInput.getText().toString());
-                        int restTime = Integer.parseInt(binding.restTimeInput.getText().toString());
-                        runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.postDelayed(runnable, 1000);
-                                myChrono(roundTime, restTime);
-                            }
-                        };
+            if(!isRunnning) {
+                binding.secondFragmentLayout.setKeepScreenOn(true);
+                isRunnning = true;
+                if(roundLeft == 0) {
+                    chronoCount = binding.textCount.getText().toString();
+                    chrono = Integer.parseInt(chronoCount);
+                    roundLeft = Integer.parseInt(binding.numberOfRoundInput.getText().toString());
+                    int roundTime1 = Integer.parseInt(binding.roundTimeInput.getText().toString());
+                    int restTime1 = Integer.parseInt(binding.restTimeInput.getText().toString());
+                    runnable = () -> {
+                        handler.postDelayed(runnable, 1000);
+                        myChrono(roundTime1, restTime1);
+                    };
+                }else if(roundLeft > 0){
+                    if (valueAnimator.isRunning()) {
+                        valueAnimator.resume();
                     }
-                    handler.postDelayed(runnable, 1000);
+                    if(valueAnimatorDown.isRunning()){
+                        valueAnimatorDown.resume();
+                    }
+                    binding.buttonStart.setText(R.string.start);
+                    binding.buttonStop.setText(R.string.stop);
                 }
-                
+                handler.postDelayed(runnable, 1000);
             }
+
+
         });
     }
 
@@ -185,6 +206,7 @@ public class SecondFragment extends Fragment {
         binding = null;
     }
 
+    @SuppressLint("ResourceAsColor")
     public void myChrono(int roundTime, int restTime){
         binding.roundLeft.setText(String.valueOf(roundLeft));
         if (roundLeft >0){
@@ -193,8 +215,10 @@ public class SecondFragment extends Fragment {
                 animatorDownIsRunning = false;
                 if(!animatorIsRunning){
                     animatorIsRunning = true;
-                    valueAnimator.setDuration(roundTime*1000);
-                    valueAnimator.start();
+                    if(!valueAnimator.isRunning()) {
+                        valueAnimator.setDuration(roundTime * 1000L);
+                        valueAnimator.start();
+                    }
                 }
 
                 if (chrono < roundTime) {
@@ -219,8 +243,10 @@ public class SecondFragment extends Fragment {
                     animatorIsRunning = false;
                     if (!animatorDownIsRunning) {
                         animatorDownIsRunning = true;
-                        valueAnimatorDown.setDuration(restTime * 1000);
-                        valueAnimatorDown.start();
+                        if(!valueAnimatorDown.isRunning()) {
+                            valueAnimatorDown.setDuration(restTime * 1000L);
+                            valueAnimatorDown.start();
+                        }
                     }
                     chrono -= 1;
                     chronoCount = String.valueOf(chrono);
@@ -238,6 +264,9 @@ public class SecondFragment extends Fragment {
             animatorIsRunning = false;
             isRunnning = false;
             binding.secondFragmentLayout.setKeepScreenOn(false);
+            binding.textCount.setTextColor(ContextCompat.getColor(requireContext(),colorAttrId2));
+            binding.buttonStart.setText(R.string.start);
+            binding.buttonStop.setText(R.string.stop);
         }
     }
 

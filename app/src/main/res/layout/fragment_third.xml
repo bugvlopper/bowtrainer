@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 >
+
     <EditText
         android:id="@+id/nameOfTrainingDBInput"
         android:layout_width="match_parent"
@@ -12,9 +13,11 @@
         android:layout_margin="12dp"
         android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
-        android:hint="Nom de l'entrainement"
+        android:hint="@string/training_name"
+        android:importantForAutofill="no"
         android:inputType="textAutoComplete"
         android:minHeight="100dp"
+        android:textColorHint="#78909C"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
@@ -27,9 +30,11 @@
         android:layout_margin="12dp"
         android:layout_marginTop="176dp"
         android:fontFamily="sans-serif-light"
-        android:hint="Nombre de round"
+        android:hint="@string/nombre_de_round"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="100dp"
+        android:textColorHint="#78909C"
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/nameOfTrainingDBInput"
         tools:layout_editor_absoluteX="30dp" />
@@ -41,7 +46,8 @@
         android:layout_margin="12dp"
         android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-light"
-        android:hint="Durée du round"
+        android:hint="@string/temp_du_round"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="100dp"
         android:textSize="20sp"
@@ -54,7 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:fontFamily="sans-serif-light"
-        android:hint="Temps de repos"
+        android:hint="@string/temps_de_repos"
+        android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="100dp"
         android:textSize="20sp"
@@ -69,11 +76,11 @@
         android:layout_margin="12dp"
         android:layout_marginBottom="32dp"
         android:background="@color/yellow"
-        android:text="Ajouter"
-        android:textSize="15sp"
+        android:text="@string/add"
         android:textColor="?attr/colorOnPrimary"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
+        tools:ignore="MissingConstraints,TextContrastCheck"
         tools:layout_editor_absoluteX="12dp" />
 
 

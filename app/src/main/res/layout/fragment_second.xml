@@ -14,7 +14,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="40dp"
         android:gravity="center"
-        android:text="Temps de repos :"
+        android:text="@string/temps_de_repos"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -23,12 +23,15 @@
         android:id="@+id/restTimeInput"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:autofillHints=""
         android:ems="10"
         android:gravity="center"
-        android:hint="60"
+        android:hint="@string/hint_60"
         android:inputType="number"
+        android:textColorHint="#78909C"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/textView2"
@@ -36,7 +39,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="40dp"
         android:gravity="center"
-        android:text="Durée du round :"
+        android:text="@string/temp_du_round"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -45,6 +48,7 @@
         android:id="@+id/imageView"
         android:layout_width="154dp"
         android:layout_height="154dp"
+        android:contentDescription="@string/animation_bg_description"
         android:src="@drawable/ic_baseline_circle_24"
         app:layout_constraintBottom_toBottomOf="@+id/text_count"
         app:layout_constraintEnd_toEndOf="@+id/text_count"
@@ -55,6 +59,7 @@
         android:id="@+id/imageViewCircleColor"
         android:layout_width="130dp"
         android:layout_height="130dp"
+        android:contentDescription="@string/animate_cirlce_description"
         android:cropToPadding="true"
         android:src="@drawable/background_circle_color"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
@@ -69,8 +74,10 @@
         android:layout_height="48dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="60"
+        android:hint="@string/hint_60"
+        android:importantForAutofill="no"
         android:inputType="number"
+        android:textColorHint="#78909C"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -79,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
-        android:text="Start"
+        android:text="@string/start"
         app:layout_constraintEnd_toStartOf="@+id/button_stop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -88,7 +95,7 @@
         android:id="@+id/button_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stop"
+        android:text="@string/stop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_start"
         app:layout_constraintTop_toTopOf="@+id/button_start" />
@@ -107,7 +114,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restTimeInput" />
+        app:layout_constraintTop_toBottomOf="@+id/restTimeInput"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
         android:id="@+id/numberOfRoundInput"
@@ -115,10 +123,11 @@
         android:layout_height="48dp"
         android:ems="10"
         android:gravity="center"
-        android:hint="3"
+        android:hint="@string/hint_3"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/textView"
@@ -127,7 +136,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="Nombres de round :"
+        android:text="@string/nombres_de_round"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -136,7 +145,7 @@
         android:id="@+id/RoundIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Round restant :"
+        android:text="@string/round_restant"
         app:layout_constraintBottom_toTopOf="@+id/text_count"
         app:layout_constraintEnd_toStartOf="@+id/roundLeft"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -149,7 +158,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="sans-serif-medium"
-        android:text="0"
+        android:text="@string/hint_0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/RoundIndicator"
         app:layout_constraintTop_toTopOf="@+id/RoundIndicator" />
@@ -158,10 +167,12 @@
         android:id="@+id/imageViewSound"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:contentDescription="@string/mutevolume_button_description"
         android:src="@drawable/ic_baseline_volume_up_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/numberOfRoundInput"
         app:layout_constraintTop_toTopOf="@+id/numberOfRoundInput"
-        app:tint="?attr/colorPrimary" />
+        app:tint="?attr/colorPrimary"
+        tools:ignore="RedundantDescriptionCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
